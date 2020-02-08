@@ -206,13 +206,17 @@ def toggle_follow(follow_id):
         db.session.commit()
         follow_count = len(g.user.following)
         unfollow_html = '<button class="btn btn-outline-primary btn-sm">Follow</button>'
-        return jsonify(html=unfollow_html, follow_count=follow_count)
+        return (jsonify(html=unfollow_html, follow_count=follow_count)
+                if (f'/users/{g.user.id}/' in request.referrer)
+                else jsonify(html=unfollow_html))
     else:
         g.user.following.append(followed_user)
         db.session.commit()
         follow_count = len(g.user.following)
         follow_html = '<button class="btn btn-primary btn-sm">Unfollow</button>'
-        return jsonify(html=follow_html, follow_count=follow_count)
+        return (jsonify(html=follow_html, follow_count=follow_count)
+                if (f'/users/{g.user.id}/' in request.referrer)
+                else jsonify(html=follow_html))
 
 
 @app.route('/users/profile', methods=["GET", "POST"])
@@ -330,7 +334,10 @@ def handle_like(message_id):
         db.session.commit()
         like_count = len(g.user.likes)
 
-    return jsonify(count=like_count)
+    return (jsonify(count=like_count)
+            if (f'/users/{g.user.id}/' in request.referrer)
+            else jsonify(success=True))
+
 
 
 ##############################################################################

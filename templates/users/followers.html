@@ -18,15 +18,13 @@
                   <p>@{{ follower.username }}</p>
                 </a>
 
-                <!-- {% if g.user.is_following(follower) %} -->
                 <form action="#" data-user-id="{{ follower.id }}" class="follow">
-                  {% if g.user.is_follower(follower) %}
+                  {% if g.user.is_followed_by(follower) %}
                     <button class="btn btn-primary btn-sm">Unfollow</button>
                   {% else %}
                     <button class="btn btn-outline-primary btn-sm">Follow</button>
                   {% endif %}
                 </form>
-                <!-- {% endif %} -->
 
               </div>
               <p class="card-bio">{{ follower.bio }}</p>
